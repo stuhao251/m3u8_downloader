@@ -60,7 +60,7 @@ class DownloadThread(QThread):
         return True
 
 
-
+    #下载一个ts分片
     def download_one_ts(self, session, ts_url, ts_name, key, seg_iv):
         try:
             if self.stop_flag:
