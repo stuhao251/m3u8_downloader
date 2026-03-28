@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# PyCharm
+.idea/
+
+# build
+dist/
+build/
+*.spec
+
+# 下载文件
+downloads/
+
+# 日志
+*.log
+
+# ffmpeg（如果你不想上传）
+tools/
