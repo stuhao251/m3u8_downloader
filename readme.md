@@ -11,7 +11,7 @@
 ---
 
 ## 📦 项目结构
-![fig.png](resources/pipline.png)
+![figs.png](resources/figs.png)
 ```
 m3u8_downloader/
 ├─ __init__/
