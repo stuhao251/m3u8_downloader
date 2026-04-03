@@ -11,7 +11,7 @@
 ---
 
 ## 📦 项目结构
-![fig.png](resources/fig.png)
+![fig.png](resources/pipline.png)
 ```
 m3u8_downloader/
 ├─ __init__/
@@ -42,12 +42,12 @@ m3u8_downloader/
 
 ## 🚀 启动方式
 
-在项目根目录运行：
+1 在项目根目录运行：
 
 ```bash
 python main.py
 ```
-
+2 url框输入m3u8的url，Referer框输入视频的播放网址，点击【开始下载】（部分网址需要referer网址，有些则不需要）
 
 ---
 

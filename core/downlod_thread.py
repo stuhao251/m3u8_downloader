@@ -16,9 +16,10 @@ class DownloadThread(QThread):
     progress_signal = pyqtSignal(int)  #进度框信号
     finished_signal = pyqtSignal(bool) #下载完成信号
 
-    def __init__(self, m3u8_url, output_dir, output_file, max_workers = 8, log_update_freq = 5):
+    def __init__(self, m3u8_url, output_dir, output_file, max_workers = 8, log_update_freq = 5, referer=""):
         super().__init__()
         self.m3u8_url = m3u8_url
+        self.referer = referer.strip()
         self.output_dir = output_dir
         self.output_file = output_file
         self.max_workers = max_workers
@@ -61,7 +62,7 @@ class DownloadThread(QThread):
 
 
     #下载一个ts分片
-    def download_one_ts(self, session, ts_url, ts_name, key, seg_iv):
+    def download_one_ts(self, headers, session, ts_url, ts_name, key, seg_iv):
         try:
             if self.stop_flag:
                 return False, ts_url, "任务已停止"
@@ -71,7 +72,7 @@ class DownloadThread(QThread):
                     return False, ts_url, "任务已停止"
                 time.sleep(0.2)
 
-            ts_response = session.get(ts_url, verify=False, timeout=(10, 30))
+            ts_response = session.get(ts_url, headers=headers, verify=False, timeout=(10, 30))
             ts_response.raise_for_status()
             ts_data = ts_response.content
 
@@ -117,6 +118,8 @@ class DownloadThread(QThread):
             "User-Agent": "Mozilla/5.0",
             "Referer": self.m3u8_url
         }
+        if self.referer:
+            headers["Referer"] = self.referer
 
         response = session.get(self.m3u8_url, headers=headers, verify=False, timeout=(10, 30))
         response.raise_for_status()
@@ -192,12 +195,7 @@ class DownloadThread(QThread):
 
                 future = executor.submit(
                     self.download_one_ts,
-                    session,
-                    ts_url,
-                    ts_name,
-                    key,
-                    seg_iv
-                )
+                    headers, session, ts_url, ts_name, key, seg_iv)
                 future_to_index[future] = idx
 
             for future in as_completed(future_to_index):

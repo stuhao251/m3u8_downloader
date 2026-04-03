@@ -43,27 +43,35 @@ class M3U8Downloader(QWidget):  #界面部分
         grid_layout= QGridLayout()
 
         # 1.1 M3U8 URL 输入框
-        self.url_label = QLabel('请输入M3U8 URL地址',self)
+        self.url_label = QLabel('请输入M3U8 Url地址',self)
         self.url_label.setFont(font_label)
         self.url_label.setAlignment(Qt.AlignCenter)  # 设置水平和垂直居中
         self.url_input = QLineEdit(self)
-        self.url_input.setText("复制url并覆盖到这里") #默认内容
+        self.url_input.setText("") #默认内容
         grid_layout.addWidget(self.url_label, 1, 0)  # row 1， column 0
         grid_layout.addWidget(self.url_input, 1, 1)  # row 1， column 1
+        # 1.2 M3U8 对应的 referer网址 输入框（该输入栏可不用判别是否输入）
+        self.refer_label = QLabel('请输入Referer地址', self)
+        self.refer_label.setFont(font_label)
+        self.refer_label.setAlignment(Qt.AlignCenter)  # 设置水平和垂直居中
+        self.referer_url_input = QLineEdit(self)
+        self.referer_url_input.setText("")  # 默认内容
+        grid_layout.addWidget(self.refer_label, 2, 0)  # row 1， column 0
+        grid_layout.addWidget(self.referer_url_input, 2, 1)  # row 1， column 1
         # 1.2 输出目录输入框
         self.dir_input = QLineEdit(self)
         self.dir_input.setText("downloads/电影名/ts")          #默认内容
         self.select_dir_button = QPushButton("选择存放ts分片的路径", self)
         self.select_dir_button.clicked.connect(self.select_ts_dir)
-        grid_layout.addWidget(self.select_dir_button, 2, 0)  # row 2， column 0
-        grid_layout.addWidget(self.dir_input, 2, 1)          # row 2， column 1
+        grid_layout.addWidget(self.select_dir_button, 3, 0)  # row 2， column 0
+        grid_layout.addWidget(self.dir_input, 3, 1)          # row 2， column 1
         # 1.3 输出文件输入框
         self.file_input = QLineEdit(self)
         self.file_input.setText("downloads/电影名/movies.ts")    #默认内容
         self.select_file_button = QPushButton("选择ts融合文件的路径", self)
         self.select_file_button.clicked.connect(self.select_output_file)
-        grid_layout.addWidget(self.select_file_button, 3 ,0) # row 3， column 0
-        grid_layout.addWidget(self.file_input, 3, 1)         # row 3， column 1
+        grid_layout.addWidget(self.select_file_button, 4 ,0) # row 3， column 0
+        grid_layout.addWidget(self.file_input, 4, 1)         # row 3， column 1
 
         all_layout.addLayout(grid_layout)
 
@@ -171,6 +179,7 @@ class M3U8Downloader(QWidget):  #界面部分
 
         #给所有输入框统一字体大小
         self.url_input.setFont(font_input)
+        self.referer_url_input.setFont(font_input)
         self.dir_input.setFont(font_input)
         self.file_input.setFont(font_input)
 
@@ -219,11 +228,11 @@ class M3U8Downloader(QWidget):  #界面部分
 
         label = QLabel(
             "！！！非自动化下载，需要自己找到m3u8的url才可进行下载！！！\n"
-            "下面的url需要定位到正确的m3u8资源url\n"
-            "而非直接复制视频网址\n"
-            "需要在网页右键->检查->网络中定位到相关url\n"
-            "部分网址可能没有这种url资源\n"
-            "可查看右边支持的部分网址列表"
+            "1 refer是直接复制视频播放的网址url；\n"
+            "2 m3u8 url需要定位到正确的m3u8资源url：\n"
+            "（1）网页右键->检查->网络中定位到相关url\n"
+            "3 部分网址可能没有这种url资源\n"
+            "4 可查看右边支持的部分网址列表"
         )
         label.setAlignment(Qt.AlignCenter)
         label.setWordWrap(True)
@@ -526,6 +535,7 @@ class M3U8Downloader(QWidget):  #界面部分
     # 5.1 开始下载-槽函数
     def download(self):
         m3u8_url = self.url_input.text()
+        refer_url = self.referer_url_input.text()
         output_dir = self.dir_input.text()
         output_file = self.file_input.text()
         self.log_box.append("当前的m3u8 url地址： "+m3u8_url)
@@ -548,7 +558,7 @@ class M3U8Downloader(QWidget):  #界面部分
         self.update_button_states("downloading")
 
         # 创建并启动下载线程
-        self.download_thread = DownloadThread(m3u8_url, output_dir, output_file, self.max_workers, self.log_update_freq)
+        self.download_thread = DownloadThread(m3u8_url, output_dir, output_file, self.max_workers, self.log_update_freq, refer_url)
         self.download_thread.logText_signal.connect( self.log )
         self.download_thread.progress_signal.connect( self.update_progress )
         self.download_thread.finished_signal.connect( self.on_download_finished )
