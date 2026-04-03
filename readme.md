@@ -47,7 +47,8 @@ m3u8_downloader/
 ```bash
 python main.py
 ```
-2 url框输入m3u8的url，Referer框输入视频的播放网址，点击【开始下载】（部分网址需要referer网址，有些则不需要）
+2 url框输入m3u8的url，Referer框输入视频的播放网址，点击【开始下载】
+* 注意：有些网址只需要m3u8 url，有些则二者都需要复制进去
 
 ---
 
