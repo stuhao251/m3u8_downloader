@@ -125,7 +125,7 @@ python -m PyInstaller --windowed --name m3u8_downloader --icon=resources\logo.pn
 
 ## ❗ 使用说明（重要）
 
-本工具**不是自动抓取工具**，你需要自己获取 m3u8 URL：
+本工具**不是自动抓取工具**，需要自己获取 m3u8 URL：
 
 ### 获取方式：
 
@@ -144,7 +144,6 @@ python -m PyInstaller --windowed --name m3u8_downloader --icon=resources\logo.pn
 
 ## 🧠 注意事项
 
-* 部分网站有防盗链（需要 Referer / Cookie）
 * 部分 m3u8 使用复杂加密（本工具不支持）
 * 网络波动可能导致 TS 下载失败（可重试）
 
