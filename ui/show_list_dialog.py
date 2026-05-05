@@ -1,9 +1,10 @@
-
 from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QListWidget, QListWidgetItem,
                              QLabel, QLineEdit, QHBoxLayout, QPushButton, QMessageBox)
 from PyQt5.QtCore import Qt
 import os
-
+from utils.configs import resource_path
+import sys
+from PyQt5.QtWidgets import QApplication
 
 class SupportListDialog(QDialog):
     def __init__(self, parent=None, support_list_file=None):
@@ -211,3 +212,19 @@ class SupportListDialog(QDialog):
                 self.parent().log("支持列表已更新并保存到文件。")
         except Exception as e:
             QMessageBox.critical(self, "错误", f"保存支持列表失败：{e}")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+
+    # 自动创建 resources 目录
+    data_path = resource_path("test")
+    if not os.path.exists(data_path):
+        os.mkdir(data_path)
+
+    # 运行对话框
+    dialog = SupportListDialog(
+        support_list_file=resource_path("test/supported_m3u8_list.txt")
+    )
+    dialog.exec_()
+    sys.exit()

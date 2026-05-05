@@ -1,7 +1,8 @@
 # ui/speed_dialog.py
 from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout,
-                             QLabel, QLineEdit, QPushButton, QMessageBox)
+                             QLabel, QLineEdit, QPushButton, QMessageBox, QApplication)
 from PyQt5.QtCore import Qt
+import sys
 
 class SpeedDialog(QDialog):
     def __init__(self, parent=None, max_workers=None, log_update_freq=None):
@@ -79,3 +80,9 @@ class SpeedDialog(QDialog):
 
         except ValueError:
             QMessageBox.critical(self, "错误", "请输入合法的整数")
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = SpeedDialog()
+   # window = SpeedDialog(parent=self, max_workers=self.max_workers, log_update_freq=self.log_update_freq)
+    window.exec_()

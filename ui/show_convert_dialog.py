@@ -142,6 +142,9 @@ class ConvertDialog(QDialog):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    dialog = ConvertDialog()
+
+    ll = "downloads\电影名"
+
+    dialog = ConvertDialog(default_ts_path=ll)
     dialog.show()
     sys.exit(app.exec_())

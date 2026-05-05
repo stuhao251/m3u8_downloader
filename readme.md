@@ -19,10 +19,13 @@ m3u8_downloader/
 │  ├─ xx1.py
 │  ├─ xx2.py
 │  ├─ xx3.py
-│  └─ xx4.py  (一些之前的测试文件)
+│  └─ xx4.py  (之前的测试文件)
 ├─ ui/
 │  ├─ __init__.py
-│  └─ main_window.py        # 主界面（UI逻辑）
+│  └─ main_window.py           # 主界面（UI逻辑）
+│  └─ show_convert_dialog.py   # 视频格式转换窗口
+│  └─ show_list_dialog.py      # 下载列表支持示例窗口
+│  └─ show_speed_dialog.py     # 调速窗口
 ├─ core/
 │  ├─ __init__.py
 │  ├─ convert_thread.py    # 转换线程核心逻辑

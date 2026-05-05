@@ -2,13 +2,10 @@ import os
 from PyQt5.QtWidgets import ( QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
                              QLabel, QLineEdit, QPushButton, QFileDialog, QMessageBox,QTextEdit, QProgressBar)
 from PyQt5.QtGui import QFont, QIcon
-from PyQt5.QtWidgets import QDialog, QListWidget, QListWidgetItem
 from PyQt5.QtCore import Qt
 import subprocess
 import sys
 
-
-from core.convert_thread import ConvertThread
 from core.downlod_thread import DownloadThread
 from utils.configs import (DEFAULT_MAX_WORKERS,\
                            DEFAULT_LOG_UPDATE_FREQ, DEFAULT_WINDOW_HEIGHT, \
